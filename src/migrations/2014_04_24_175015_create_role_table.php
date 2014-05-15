@@ -14,21 +14,17 @@ class CreateRoleTable extends Migration {
 	{
 		VextSchema::create('role', function(VextBlueprint $table) {
             $table->increments('id')
-                  ->gridConfig(array('text' => 'Id',
-                    'width' => 100
-                  ))->fieldConfig(array(
+                  ->fieldConfig(array(
                     'fieldLabel' => 'Id',
                     'disabled' => true
                   ));
 
-            $table->tree();
-
-            $table->string('title')
-                  ->gridConfig(array('text' => 'Title',
-                    'width' => 100
-                  ))->fieldConfig(array(
+            $table->string('text')->fillable()->required()
+                  ->fieldConfig(array(
                     'fieldLabel' => 'Title',
                   ));
+
+            $table->tree();
          });
 	}
 

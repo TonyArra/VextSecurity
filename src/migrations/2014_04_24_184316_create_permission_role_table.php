@@ -13,14 +13,34 @@ class CreatePermissionRoleTable extends Migration {
 	public function up()
 	{
 		VextSchema::create('permission_role', function(VextBlueprint $table) {
-            $table->increments('id');
+            $table->increments('id')
+                  ->gridConfig(array(
+                    'text' => 'Id',
+                    'width' => 100
+                  ))->fieldConfig(array(
+                    'fieldLabel' => 'Id',
+                    'disabled' => true
+                  ));
 
-            $table->integer('permission_id');
+            $table->integer('permission_id')
+                   ->gridConfig(array(
+                    'text' => 'Permission_Id',
+                    'width' => 100
+                  ))->fieldConfig(array(
+                    'fieldLabel' => 'Permission_Id',
+                  ));
             $table->foreign('permission_id')
                   ->references('id')->on('permission')
                   ->onDelete('cascade');
 
-            $table->integer('role_id');
+            $table->integer('role_id')
+                  ->gridConfig(array(
+                    'text' => 'Role_Id',
+                    'width' => 100
+                  ))->fieldConfig(array(
+                    'fieldLabel' => 'Role_Id',
+                  ));
+
             $table->foreign('role_id')
                   ->references('id')->on('role')
                   ->onDelete('cascade');

@@ -14,30 +14,32 @@ class CreateGroupTable extends Migration {
 	{
 		VextSchema::create('group', function(VextBlueprint $table) {
             $table->increments('id')
-                  ->gridConfig(array('text' => 'Id',
+                  ->gridConfig(array(
+                    'text' => 'Id',
                     'width' => 100
                   ))->fieldConfig(array(
                     'fieldLabel' => 'Id',
                     'disabled' => true
                   ));
 
-            $table->string('name')->fillable()->required()
-                  ->gridConfig(array('text' => 'Name',
-                    'width' => 100
-                  ))->fieldConfig(array(
+            $table->string('text')->fillable()->required()
+                  ->fieldConfig(array(
                     'fieldLabel' => 'Name'
                   ));
 
             $table->boolean('organization')->fillable()
                   ->default(false)
                   ->fillable()
-                  ->gridConfig(array('text' => 'Organization',
+                  ->gridConfig(array(
+                    'text' => 'Organization',
                     'width' => 100
                   ))->fieldConfig(array(
                     'fieldLabel' => 'Organization'
+
                   ));
 
             $table->tree();
+
 
         });
 	}
