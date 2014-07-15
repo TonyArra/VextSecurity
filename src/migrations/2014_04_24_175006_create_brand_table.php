@@ -22,7 +22,7 @@ class CreateBrandTable extends Migration {
 
             $table->integer('organization_id');
             $table->foreign('organization_id')
-                  ->references('id')->on('group')
+                  ->references('id')->on('user')
                   ->onDelete('cascade');
         });
 	}

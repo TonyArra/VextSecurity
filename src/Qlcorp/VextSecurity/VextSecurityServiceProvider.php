@@ -20,6 +20,7 @@ class VextSecurityServiceProvider extends ServiceProvider {
 	{
 		$this->package('qlcorp/vext-security');
         include __DIR__.'/../../routes.php';
+        include __DIR__.'/../../filters.php';
 	}
 
 	/**
@@ -29,7 +30,9 @@ class VextSecurityServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+		$this->app->bind('auth.table', function(){
+            return Config::get('vext-security::table');
+        });
 	}
 
 	/**

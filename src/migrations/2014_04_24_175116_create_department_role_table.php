@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Qlcorp\VextFramework\VextBlueprint;
 
-class CreatePermissionRoleTable extends Migration {
+class CreateDepartmentRoleTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,36 +12,34 @@ class CreatePermissionRoleTable extends Migration {
 	 */
 	public function up()
 	{
-		VextSchema::create('permission_role', function(VextBlueprint $table) {
+		VextSchema::create('department_role', function(VextBlueprint $table) {
             $table->increments('id')
                   ->gridConfig(array(
-                    'text' => 'Id',
+                    'text' => 'ID',
                     'width' => 100
                   ))->fieldConfig(array(
                     'fieldLabel' => 'Id',
                     'disabled' => true
                   ));
 
-            $table->integer('permission_id')
-                   ->gridConfig(array(
-                    'text' => 'Permission',
+            $table->integer('department_id')
+                  ->gridConfig(array(
+                    'text' => 'Department ID',
                     'width' => 100
                   ))->fieldConfig(array(
-                    'fieldLabel' => 'Permission',
-                  ))->lookup('Permission');
-
-            $table->foreign('permission_id')
-                  ->references('id')->on('permission')
+                    'fieldLabel' => 'Department ID',
+                  ));
+            $table->foreign('department_id')
+                  ->references('id')->on('user')
                   ->onDelete('cascade');
 
             $table->integer('role_id')
                   ->gridConfig(array(
-                    'text' => 'Role',
+                    'text' => 'Role ID',
                     'width' => 100
                   ))->fieldConfig(array(
-                    'fieldLabel' => 'Role',
-                  ))->lookup('Role');
-
+                    'fieldLabel' => 'Role ID',
+                  ));
             $table->foreign('role_id')
                   ->references('id')->on('role')
                   ->onDelete('cascade');
@@ -55,7 +53,7 @@ class CreatePermissionRoleTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('permission_role');
+		Schema::dropIfExists('department_role');
 	}
 
 }
