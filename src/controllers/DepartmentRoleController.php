@@ -10,5 +10,5 @@ use Qlcorp\VextFramework\CrudController;
 
 class DepartmentRoleController extends CrudController {
     protected $Model = '\DepartmentRole';
-    protected $root = 'departmentrole';
+    protected $root = 'departmentRole';
 }

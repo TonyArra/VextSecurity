@@ -34,7 +34,7 @@ class CreateUserTable extends Migration {
                   ->fillable()
                   ->default('user')
                   ->fieldConfig(array(
-                    'fieldLabel' => 'Organization'
+                    'fieldLabel' => 'Type'
                   ));
 
             //User-Only Fields:
@@ -56,6 +56,7 @@ class CreateUserTable extends Migration {
             $table->tree();
 
             $table->appends('text', 'formName');
+
         });
 	}
 

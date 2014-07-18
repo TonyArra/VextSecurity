@@ -21,7 +21,6 @@ class CreateRoleTable extends Migration {
 
             $table->string('text')->fillable()->required()
                   ->fieldConfig(array(
-                    'fieldLabel' => 'Title',
                   ));
 
             $table->tree();

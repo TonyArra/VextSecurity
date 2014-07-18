@@ -22,27 +22,29 @@ class CreateDepartmentRoleTable extends Migration {
                     'disabled' => true
                   ));
 
-            $table->integer('department_id')
+            $table->integer('user_id')->fillable()
                   ->gridConfig(array(
                     'text' => 'Department ID',
                     'width' => 100
                   ))->fieldConfig(array(
                     'fieldLabel' => 'Department ID',
                   ));
-            $table->foreign('department_id')
+            $table->foreign('user_id')
                   ->references('id')->on('user')
                   ->onDelete('cascade');
 
-            $table->integer('role_id')
+            $table->integer('role_id')->fillable()
                   ->gridConfig(array(
                     'text' => 'Role ID',
                     'width' => 100
                   ))->fieldConfig(array(
                     'fieldLabel' => 'Role ID',
-                  ));
+                  ))->lookup('role');
             $table->foreign('role_id')
                   ->references('id')->on('role')
                   ->onDelete('cascade');
+
+            $table->parent('user_id');
         });
 	}
 
