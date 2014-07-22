@@ -24,6 +24,9 @@ class CreateRoleTable extends Migration {
                   ));
 
             $table->tree();
+
+            $table->appends('formName', 'string')->fillable();
+
          });
 	}
 

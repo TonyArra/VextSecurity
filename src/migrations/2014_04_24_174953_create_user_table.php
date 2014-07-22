@@ -13,9 +13,7 @@ class CreateUserTable extends Migration {
 	public function up()
 	{
         /*
-         * todo: appends method for text and formName
          * todo: have it added to fillable and JSON
-         * todo: change enum type to 'string' via VextBlueprint
          */
 
 		VextSchema::create('user', function(VextBlueprint $table) {
@@ -45,7 +43,7 @@ class CreateUserTable extends Migration {
                     'fieldLabel' => 'Email'
                   ));
 
-            $table->string('password', 60)->nullable()
+            $table->string('password', 60)->nullable()->fillable()
                   ->fillable()
                   ->fieldConfig(array(
                     'fieldLabel' => 'Password'
@@ -55,7 +53,12 @@ class CreateUserTable extends Migration {
 
             $table->tree();
 
-            $table->appends('text', 'formName');
+            $table->appends('text', 'string')->fillable()
+                ->fieldConfig(array(
+                    'allowBlank'=>'false',
+                    'fieldLabel'=>'Name'
+                ));
+            $table->appends('formName', 'string')->fillable();
 
         });
 	}
