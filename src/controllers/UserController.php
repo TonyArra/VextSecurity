@@ -45,8 +45,9 @@ class UserController extends TreeController {
     }
 
     /**
-     * Updates accessible User
+     * Updates User
      *
+     * pre: Authenticated User must have access to this User
      * @return \Illuminate\Http\Response|string
      */
     public function postUpdate() {
@@ -57,14 +58,45 @@ class UserController extends TreeController {
         }
     }
 
+    /**
+     * Moves User
+     *
+     * pre: Authenticated User must have access to this User
+     * @return \Illuminate\Http\Response|string
+     */
+    public function postMove() {
+       if ( $this->isNodeAccessible(Input::get('id'))
+         && $this->isNodeAccessible(Input::get('newParentId')) ) {
+           return parent::postMove();
+       }  else {
+           return Response::make('Unauthorized', 403);
+       }
+    }
 
+    /**
+     * Checks if Node is accessible by authenticated User
+     *
+     * User node must be a descendent of the authenticated User's parent-Organization
+     *
+     * @param $id id of User node/record
+     * @return bool
+     */
     protected function isNodeAccessible($id) {
         $User = $this->Model;
-        $user = $User::find($id);
+        $user = $User::findOrFail($id);
 
         return $this->isNodeInTree($user, $this->user_tree);
     }
 
+    /**
+     * Checks if a node exists in a tree
+     *
+     * Uses id of node for checking
+     *
+     * @param $node node to search for
+     * @param $tree tree to search in
+     * @return bool
+     */
     protected function isNodeInTree($node, $tree) {
         if ( $node->id === $tree->id ) {
             return true;
@@ -79,7 +111,12 @@ class UserController extends TreeController {
         }
     }
 
-
+    /**
+     * Get the parent-Organization of this User
+     *
+     * @param $user
+     * @return mixed
+     */
     protected function parentOrganization($user) {
         while( !is_null($user) && $user->type !== 'organization' ) {
             $user = $user->parent;
