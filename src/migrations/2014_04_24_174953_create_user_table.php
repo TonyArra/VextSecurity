@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Qlcorp\VextFramework\VextBlueprint;
+use Illuminate\Support\Facades\Config;
 
 class CreateUserTable extends Migration {
 
@@ -15,8 +16,9 @@ class CreateUserTable extends Migration {
         /*
          * todo: have it added to fillable and JSON
          */
+        $table = Config::get('auth.table', 'user');
 
-		VextSchema::create('user', function(VextBlueprint $table) {
+		VextSchema::create($table, function(VextBlueprint $table) {
             $table->increments('id')
                   ->fieldConfig(array(
                     'fieldLabel' => 'Id',
@@ -70,7 +72,7 @@ class CreateUserTable extends Migration {
 	 */
 	public function down()
 	{
-        Schema::dropIfExists('user');
+        Schema::dropIfExists(Config::get('auth.table', 'user'));
         Schema::dropIfExists('brand');
 	}
 
