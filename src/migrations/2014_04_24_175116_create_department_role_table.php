@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Qlcorp\VextFramework\VextBlueprint;
+use Illuminate\Support\Facades\Config;
 
 class CreateDepartmentRoleTable extends Migration {
 
@@ -30,7 +31,7 @@ class CreateDepartmentRoleTable extends Migration {
                     'fieldLabel' => 'Department ID',
                   ));
             $table->foreign('user_id')
-                  ->references('id')->on('user')
+                  ->references('id')->on(Config::get('auth.table'))
                   ->onDelete('cascade');
 
             $table->integer('role_id')->fillable()

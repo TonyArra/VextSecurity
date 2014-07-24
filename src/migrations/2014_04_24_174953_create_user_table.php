@@ -62,6 +62,7 @@ class CreateUserTable extends Migration {
                 ));
             $table->appends('formName', 'string')->fillable();
 
+            $table->timestamps();
         });
 	}
 

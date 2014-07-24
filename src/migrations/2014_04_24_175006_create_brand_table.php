@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Qlcorp\VextFramework\VextBlueprint;
+use Illuminate\Support\Facades\Config;
 
 class CreateBrandTable extends Migration {
 
@@ -22,7 +23,7 @@ class CreateBrandTable extends Migration {
 
             $table->integer('organization_id');
             $table->foreign('organization_id')
-                  ->references('id')->on('user')
+                  ->references('id')->on(Config::get('auth.table'))
                   ->onDelete('cascade');
         });
 	}
