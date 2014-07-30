@@ -13,12 +13,11 @@ class CreateUserTable extends Migration {
 	 */
 	public function up()
 	{
-        /*
-         * todo: have it added to fillable and JSON
-         */
         $table = Config::get('auth.table', 'user');
 
 		VextSchema::create($table, function(VextBlueprint $table) {
+            $table->model(Config::get('auth.model', 'User'));
+
             $table->increments('id')
                   ->fieldConfig(array(
                     'fieldLabel' => 'Id',
