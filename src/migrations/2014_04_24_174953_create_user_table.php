@@ -52,6 +52,11 @@ class CreateUserTable extends Migration {
 
             $table->string('remember_token', 100)->nullable();
 
+            /**  */
+            $table->integer('viewport')->fillable();
+            $table->boolean('top_level')->fillable()->nullable();
+            /**  */
+
             $table->tree();
 
             $table->appends('text', 'string')->fillable()
@@ -62,6 +67,8 @@ class CreateUserTable extends Migration {
             $table->appends('formName', 'string')->fillable();
 
             $table->timestamps();
+
+
         });
 	}
 
