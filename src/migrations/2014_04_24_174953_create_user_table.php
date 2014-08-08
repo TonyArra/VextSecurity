@@ -53,8 +53,18 @@ class CreateUserTable extends Migration {
             $table->string('remember_token', 100)->nullable();
 
             /**  */
-            $table->integer('viewport')->fillable();
-            $table->boolean('top_level')->fillable()->nullable();
+            $table->integer('viewport')->fillable()
+                ->fieldConfig(array(
+                    'fieldLabel' => 'Viewport'
+                ))->dropdown(array(
+                    1 => 'Admin',
+                    2 => 'Carrier',
+                    3 => 'Physician'
+                ));
+            $table->boolean('top_level')->fillable()->nullable()
+                ->fieldConfig(array(
+                    'fieldLabel' => 'Top-Level'
+                ));
             /**  */
 
             $table->tree();
@@ -64,7 +74,7 @@ class CreateUserTable extends Migration {
                     'allowBlank'=>'false',
                     'fieldLabel'=>'Name'
                 ));
-            $table->appends('formName', 'string')->fillable();
+            $table->appends('formName', 'string');
 
             $table->timestamps();
 
