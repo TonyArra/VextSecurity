@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link rel="shortcut icon" href="/favicon.png">
     <title>Sign In</title>
 
     {{ HTML::style('packages/qlcorp/vext-security/css/bootstrap/bootstrap.min.css') }}
@@ -101,7 +103,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Security Framework</a>
+            <a class="navbar-brand" href="#">{{Config::get('app.name', 'Welcome')}}</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -146,12 +148,21 @@
             )) }}
 
             <div class="form-group">
-            {{ Form::label('email', 'E-Mail Address') }}
-            {{ Form::email('email', null, array(
-                'required',
-                'class' => 'form-control',
-                'placeholder' => 'E-Mail'
-            )) }}
+            @if ( $field === 'email' )
+                {{ Form::label('email', 'E-Mail Address') }}
+                {{ Form::email('email', null, array(
+                    'required',
+                    'class' => 'form-control',
+                    'placeholder' => 'E-Mail'
+                )) }}
+            @else
+                {{ Form::label($field, $label) }}
+                {{ Form::text($field, null, array(
+                    'required',
+                    'class' => 'form-control',
+                    'placeholder' => $label
+                )) }}
+            @endif
             </div>
 
             <div class="form-group">
@@ -236,5 +247,4 @@
 </body>
 
 </html>
-
 
