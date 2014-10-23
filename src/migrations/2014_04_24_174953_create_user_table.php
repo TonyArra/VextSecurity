@@ -44,7 +44,7 @@ class CreateUserTable extends Migration {
                     'fieldLabel' => 'Email'
                   ));
 
-            $table->string('password', 60)->nullable()->fillable()
+            $table->string('password', 60)->nullable()
                   ->fillable()
                   ->fieldConfig(array(
                     'fieldLabel' => 'Password'
