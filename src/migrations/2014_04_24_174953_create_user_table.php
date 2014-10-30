@@ -39,13 +39,11 @@ class CreateUserTable extends Migration {
             //User-Only Fields:
 
             $table->string('email')->fillable()->nullable()
-                  ->fillable()
                   ->fieldConfig(array(
                     'fieldLabel' => 'Email'
                   ));
 
             $table->string('password', 60)->nullable()
-                  ->fillable()
                   ->fieldConfig(array(
                     'fieldLabel' => 'Password'
                   ));
