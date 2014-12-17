@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserController extends TreeController {
     protected $Model = '\User';
@@ -53,8 +54,28 @@ class UserController extends TreeController {
         if ( is_null($this->user_tree) ) {
             return $this->failure('No parent organization found');
         } else {
-            return $this->success($this->user_tree);
+            return parent::getRead();
         }
+    }
+
+    public function getNode($id, $parentKey = null, $parentValue = null) {
+        return $this->user_tree;
+    }
+
+    public function getRecords($parentKey = null, $parentValue = null) {
+        $this->root = 'user';
+        return new Collection($this->flatten($this->user_tree));
+    }
+
+    public function getDepartments() {
+        $this->root = 'user';
+        $users = $this->flatten($this->user_tree);
+        $departments = array_values(array_filter($users, function($user) {
+            return $user->type === 'department';
+        }));
+        $departments = new Collection($departments);
+
+        return $this->success($departments, array('total' => $departments->count()));
     }
 
     /**
