@@ -3,10 +3,6 @@
 use Illuminate\Support\Facades\File;
 
 Route::group(array('before' => 'vextAuth'), function() {
-    Route::any('/', function() {
-        readfile('../app/views/extjs/index.html');
-        //return Redirect::to('index.html');
-    });
 
     /*Route::any('/{all}', function($page) {
         if ( File::extension($page) === 'js' ) {

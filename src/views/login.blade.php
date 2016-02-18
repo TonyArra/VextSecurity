@@ -139,7 +139,7 @@
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <strong>Error: </strong><?= $error ?>
                 </div>
-            <? endif; ?>
+            <?php endif; ?>
             {{ Form::model(null, array(
                 'url' => 'login/authenticate',
                 'method' => 'post',
@@ -182,7 +182,7 @@
     </div>
     <p class="text-center text-muted ">
         <span class="glyphicon glyphicon-copyright-mark"></span>
-        Copyright 2014 - Quantum Logic Corp.
+        Copyright 2015 - Quantum Logic Corp.
     </p>
 
 </section>

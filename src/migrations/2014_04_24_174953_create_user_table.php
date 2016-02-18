@@ -50,8 +50,9 @@ class CreateUserTable extends Migration {
 
             $table->string('remember_token', 100)->nullable();
 
-            /**  */
-            $table->integer('viewport')->fillable()
+            $table->integer('viewport')
+                ->nullable()
+                ->fillable()
                 ->fieldConfig(array(
                     'fieldLabel' => 'Viewport'
                 ))->dropdown(array(
@@ -59,11 +60,16 @@ class CreateUserTable extends Migration {
                     2 => 'Carrier',
                     3 => 'Physician'
                 ));
+
             $table->boolean('top_level')->fillable()->nullable()
                 ->fieldConfig(array(
                     'fieldLabel' => 'Top-Level'
                 ));
-            /**  */
+
+            $table->string('org_type')
+                ->fillable()
+                ->dropdown(array('carrier', 'facility', 'pharmacy'))
+                ->nullable();
 
             $table->tree();
 
@@ -72,11 +78,13 @@ class CreateUserTable extends Migration {
                     'allowBlank'=>'false',
                     'fieldLabel'=>'Name'
                 ));
+
+            $table->string('banner')
+                ->fillable()
+                ->nullable();
+
             $table->appends('formName', 'string');
-
             $table->timestamps();
-
-
         });
 	}
 
