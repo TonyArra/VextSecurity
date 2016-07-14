@@ -2,7 +2,7 @@
 
 Route::filter('vextAuth', function()
 {
-	if (Auth::guest()) return Redirect::guest('login');
+	if (Auth::guest()) return Redirect::to('login');
 });
 
 Route::filter('vextGuest', function()

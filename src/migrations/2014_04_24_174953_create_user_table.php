@@ -4,49 +4,55 @@ use Illuminate\Database\Migrations\Migration;
 use Qlcorp\VextFramework\VextBlueprint;
 use Illuminate\Support\Facades\Config;
 
-class CreateUserTable extends Migration {
+class CreateUserTable extends Migration
+{
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
         $table = Config::get('auth.table', 'user');
 
-		VextSchema::create($table, function(VextBlueprint $table) {
+        VextSchema::create($table, function (VextBlueprint $table) {
             $table->model(Config::get('auth.model', 'User'));
 
             $table->increments('id')
-                  ->fieldConfig(array(
+                ->fieldConfig(array(
                     'fieldLabel' => 'Id',
-                    'disabled' => true
-                  ));
+                    'disabled'   => true
+                ));
 
-            $table->string('name')->fillable()->required()
-                  ->fieldConfig(array(
-                    'fieldLabel' => 'Name'
-                  ));
+            $table->string('first_name')
+                ->fillable();
+
+            $table->string('last_name')
+                ->fillable();
+
+            $table->string('middle_name')
+                ->fillable();;
 
             $table->enum('type', array('user', 'organization', 'department'))
-                  ->fillable()
-                  ->default('user')
-                  ->fieldConfig(array(
+                ->fillable()
+                ->default('user')
+                ->fieldConfig(array(
                     'fieldLabel' => 'Type'
-                  ));
+                ));
 
             //User-Only Fields:
 
-            $table->string('email')->fillable()->nullable()
-                  ->fieldConfig(array(
+            $table->string('email')
+                ->fillable()
+                ->fieldConfig(array(
                     'fieldLabel' => 'Email'
-                  ));
+                ));
 
             $table->string('password', 60)->nullable()
-                  ->fieldConfig(array(
+                ->fieldConfig(array(
                     'fieldLabel' => 'Password'
-                  ));
+                ));
 
             $table->string('remember_token', 100)->nullable();
 
@@ -75,9 +81,11 @@ class CreateUserTable extends Migration {
 
             $table->appends('text', 'string')->fillable()
                 ->fieldConfig(array(
-                    'allowBlank'=>'false',
-                    'fieldLabel'=>'Name'
+                    'allowBlank' => 'false',
+                    'fieldLabel' => 'Name'
                 ));
+
+            $table->appends('name', 'string');
 
             $table->string('banner')
                 ->fillable()
@@ -86,17 +94,17 @@ class CreateUserTable extends Migration {
             $table->appends('formName', 'string');
             $table->timestamps();
         });
-	}
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
         Schema::dropIfExists(Config::get('auth.table', 'user'));
         Schema::dropIfExists('brand');
-	}
+    }
 
 }
