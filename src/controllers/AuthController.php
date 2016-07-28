@@ -96,9 +96,8 @@ class AuthController extends Controller
                         $user->save();
                     }
 
-                    if ($login_history['is_locked'] = 0) {
-                        $login_history['failed_attempt'][] = date('Y-m-d h:i:s');
-                    }
+                    $login_history['failed_attempt'][] = date('Y-m-d h:i:s');
+
                     $user->login_history = json_encode($login_history);
                     $user->save();
 
