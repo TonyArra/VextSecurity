@@ -13,12 +13,11 @@ class CreateUserTable extends Migration {
 	 */
 	public function up()
 	{
-        /*
-         * todo: have it added to fillable and JSON
-         */
         $table = Config::get('auth.table', 'user');
 
 		VextSchema::create($table, function(VextBlueprint $table) {
+            $table->model(Config::get('auth.model', 'User'));
+
             $table->increments('id')
                   ->fieldConfig(array(
                     'fieldLabel' => 'Id',
@@ -40,18 +39,31 @@ class CreateUserTable extends Migration {
             //User-Only Fields:
 
             $table->string('email')->fillable()->nullable()
-                  ->fillable()
                   ->fieldConfig(array(
                     'fieldLabel' => 'Email'
                   ));
 
-            $table->string('password', 60)->nullable()->fillable()
-                  ->fillable()
+            $table->string('password', 60)->nullable()
                   ->fieldConfig(array(
                     'fieldLabel' => 'Password'
                   ));
 
             $table->string('remember_token', 100)->nullable();
+
+            /**  */
+            $table->integer('viewport')->fillable()
+                ->fieldConfig(array(
+                    'fieldLabel' => 'Viewport'
+                ))->dropdown(array(
+                    1 => 'Admin',
+                    2 => 'Carrier',
+                    3 => 'Physician'
+                ));
+            $table->boolean('top_level')->fillable()->nullable()
+                ->fieldConfig(array(
+                    'fieldLabel' => 'Top-Level'
+                ));
+            /**  */
 
             $table->tree();
 
@@ -60,9 +72,11 @@ class CreateUserTable extends Migration {
                     'allowBlank'=>'false',
                     'fieldLabel'=>'Name'
                 ));
-            $table->appends('formName', 'string')->fillable();
+            $table->appends('formName', 'string');
 
             $table->timestamps();
+
+
         });
 	}
 

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserController extends TreeController {
     protected $Model = '\User';
@@ -13,11 +14,24 @@ class UserController extends TreeController {
     protected $user_tree = null;
 
     /**
-     * User can only access Departments/Users belonging to parent Organization
+     * Get the view for the current authenticated user
+     *
+     * Note: uses 'getViewportAttribute' accessor in the User model
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getViewport() {
+        return Response::json(array(
+           'viewport' => Auth::user()->viewport
+        ));
+    }
+
+    /**
+     * User can only access Departments/Users belonging to it's top-level ancestor
      */
     public function __construct() {
         $user = Auth::user();
-        $this->user_tree = $this->parentOrganization($user)->load('children');
+        $this->user_tree = $user->getTopLevel()->load('children');
         parent::__construct();
     }
 
@@ -40,8 +54,28 @@ class UserController extends TreeController {
         if ( is_null($this->user_tree) ) {
             return $this->failure('No parent organization found');
         } else {
-            return $this->success($this->user_tree);
+            return parent::getRead();
         }
+    }
+
+    public function getNode($id, $parentKey = null, $parentValue = null) {
+        return $this->user_tree;
+    }
+
+    public function getRecords($parentKey = null, $parentValue = null) {
+        $this->root = 'user';
+        return new Collection($this->flatten($this->user_tree));
+    }
+
+    public function getDepartments() {
+        $this->root = 'user';
+        $users = $this->flatten($this->user_tree);
+        $departments = array_values(array_filter($users, function($user) {
+            return $user->type === 'department';
+        }));
+        $departments = new Collection($departments);
+
+        return $this->success($departments, array('total' => $departments->count()));
     }
 
     /**
@@ -109,19 +143,5 @@ class UserController extends TreeController {
                 }
             }
         }
-    }
-
-    /**
-     * Get the parent-Organization of this User
-     *
-     * @param $user
-     * @return mixed
-     */
-    protected function parentOrganization($user) {
-        while( !is_null($user) && $user->type !== 'organization' ) {
-            $user = $user->parent;
-        }
-
-        return $user;
     }
 }
