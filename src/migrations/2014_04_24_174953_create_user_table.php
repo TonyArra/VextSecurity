@@ -91,6 +91,10 @@ class CreateUserTable extends Migration
                 ->fillable()
                 ->nullable();
 
+            $table->text('login_history')
+                ->default('')
+                ->fillable();
+
             $table->appends('formName', 'string');
             $table->timestamps();
         });
