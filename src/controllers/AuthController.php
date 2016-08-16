@@ -58,6 +58,7 @@ class AuthController extends \Controller
                 }
 
                 $valid_day = $time_period;
+
                 if (($diff_days > $valid_day) || $login_history['new_user']) {
                     $login_history['isexpired'] = 1;
                 } else {
